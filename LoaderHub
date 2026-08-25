@@ -1,0 +1,40 @@
+-- Auto Execute Script Loader
+-- Tự động chạy script khi game khởi động
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+
+-- Hàm load script chính
+local function LoadScript()
+    local success, err = pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/luongtuyenkqpa/Anime-bloxfuit/refs/heads/main/Animemodhub"))()
+    end)
+    
+    if success then
+        print("[AutoLoad] Script đã chạy thành công!")
+    else
+        warn("[AutoLoad] Lỗi khi chạy script: " .. tostring(err))
+    end
+end
+
+-- Hàm chờ character load xong rồi mới chạy
+local function OnCharacterAdded(character)
+    -- Chờ character load hoàn toàn
+    character:WaitForChild("HumanoidRootPart", 10)
+    task.wait(2) -- Đợi thêm 2 giây cho game ổn định
+    LoadScript()
+end
+
+-- Auto chạy khi vào game
+if LocalPlayer.Character then
+    -- Nếu character đã tồn tại
+    task.spawn(function()
+        task.wait(2)
+        LoadScript()
+    end)
+end
+
+-- Chạy lại mỗi khi respawn (tuỳ chọn)
+LocalPlayer.CharacterAdded:Connect(OnCharacterAdded)
+
+print("[AutoLoad] Script loader đã được khởi động!")
