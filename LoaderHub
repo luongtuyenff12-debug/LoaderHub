@@ -23,61 +23,62 @@ local function CreateCornerLoader()
     SG.IgnoreGuiInset = true
     SG.Parent         = PlayerGui
 
+    -- ── SHADOW ──
+    local Shadow = Instance.new("Frame", SG)
+    Shadow.Size                   = UDim2.new(0, 228, 0, 98)
+    Shadow.Position               = UDim2.new(1, -234, 1, -109)
+    Shadow.BackgroundColor3       = Color3.fromRGB(160, 160, 160)
+    Shadow.BackgroundTransparency = 0.72
+    Shadow.BorderSizePixel        = 0
+    Shadow.ZIndex                 = 9
+    Instance.new("UICorner", Shadow).CornerRadius = UDim.new(0, 18)
+
     -- ── PANEL CHÍNH ──
     local Panel = Instance.new("Frame", SG)
     Panel.Name                   = "Panel"
-    Panel.Size                   = UDim2.new(0, 220, 0, 90)
-    Panel.Position               = UDim2.new(1, -230, 1, -110)
+    Panel.Size                   = UDim2.new(0, 222, 0, 92)
+    Panel.Position               = UDim2.new(1, -232, 1, -108)
     Panel.BackgroundColor3       = Color3.fromRGB(255, 255, 255)
     Panel.BackgroundTransparency = 0
     Panel.BorderSizePixel        = 0
     Panel.ZIndex                 = 10
-    Instance.new("UICorner", Panel).CornerRadius = UDim.new(0, 14)
+    Instance.new("UICorner", Panel).CornerRadius = UDim.new(0, 16)
 
     local PanelStroke = Instance.new("UIStroke", Panel)
-    PanelStroke.Color     = Color3.fromRGB(220, 220, 220)
-    PanelStroke.Thickness = 2
-
-    -- Shadow
-    local Shadow = Instance.new("Frame", SG)
-    Shadow.Size                   = UDim2.new(0, 224, 0, 94)
-    Shadow.Position               = UDim2.new(1, -232, 1, -108)
-    Shadow.BackgroundColor3       = Color3.fromRGB(180, 180, 180)
-    Shadow.BackgroundTransparency = 0.7
-    Shadow.BorderSizePixel        = 0
-    Shadow.ZIndex                 = 9
-    Instance.new("UICorner", Shadow).CornerRadius = UDim.new(0, 16)
+    PanelStroke.Color        = Color3.fromRGB(210, 210, 210)
+    PanelStroke.Thickness    = 1.5
+    PanelStroke.Transparency = 0
 
     -- ── HEADER ──
     local Header = Instance.new("Frame", Panel)
-    Header.Size             = UDim2.new(1, 0, 0, 32)
+    Header.Size             = UDim2.new(1, 0, 0, 36)
     Header.Position         = UDim2.new(0, 0, 0, 0)
-    Header.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+    Header.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
     Header.BorderSizePixel  = 0
     Header.ZIndex           = 11
-    Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 14)
+    Instance.new("UICorner", Header).CornerRadius = UDim.new(0, 16)
 
     local HeaderFix = Instance.new("Frame", Header)
-    HeaderFix.Size             = UDim2.new(1, 0, 0, 14)
-    HeaderFix.Position         = UDim2.new(0, 0, 1, -14)
-    HeaderFix.BackgroundColor3 = Color3.fromRGB(245, 245, 245)
+    HeaderFix.Size             = UDim2.new(1, 0, 0, 16)
+    HeaderFix.Position         = UDim2.new(0, 0, 1, -16)
+    HeaderFix.BackgroundColor3 = Color3.fromRGB(248, 248, 248)
     HeaderFix.BorderSizePixel  = 0
     HeaderFix.ZIndex           = 11
 
     local HeaderLine = Instance.new("Frame", Panel)
-    HeaderLine.Size             = UDim2.new(1, -16, 0, 1)
-    HeaderLine.Position         = UDim2.new(0, 8, 0, 32)
-    HeaderLine.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+    HeaderLine.Size             = UDim2.new(1, -20, 0, 1)
+    HeaderLine.Position         = UDim2.new(0, 10, 0, 36)
+    HeaderLine.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
     HeaderLine.BorderSizePixel  = 0
     HeaderLine.ZIndex           = 12
 
-    -- ✅ TÊN "Loader Hub" ──
+    -- ✅ Tên "Loader Hub" — không icon, không chấm tròn
     local HeaderTitle = Instance.new("TextLabel", Header)
-    HeaderTitle.Size                   = UDim2.new(1, -10, 1, 0)
+    HeaderTitle.Size                   = UDim2.new(1, -16, 1, 0)
     HeaderTitle.Position               = UDim2.new(0, 10, 0, 0)
     HeaderTitle.BackgroundTransparency = 1
-    HeaderTitle.Text                   = "⚡ Loader Hub"
-    HeaderTitle.TextColor3             = Color3.fromRGB(60, 60, 60)
+    HeaderTitle.Text                   = "Loader Hub"
+    HeaderTitle.TextColor3             = Color3.fromRGB(40, 40, 40)
     HeaderTitle.TextScaled             = true
     HeaderTitle.Font                   = Enum.Font.GothamBold
     HeaderTitle.TextXAlignment         = Enum.TextXAlignment.Left
@@ -86,21 +87,21 @@ local function CreateCornerLoader()
     -- ── STATUS TEXT ──
     local StatusLabel = Instance.new("TextLabel", Panel)
     StatusLabel.Name                   = "StatusLabel"
-    StatusLabel.Size                   = UDim2.new(1, -12, 0, 18)
-    StatusLabel.Position               = UDim2.new(0, 8, 0, 35)
+    StatusLabel.Size                   = UDim2.new(1, -16, 0, 18)
+    StatusLabel.Position               = UDim2.new(0, 10, 0, 40)
     StatusLabel.BackgroundTransparency = 1
     StatusLabel.Text                   = "Đang kết nối..."
-    StatusLabel.TextColor3             = Color3.fromRGB(120, 120, 120)
+    StatusLabel.TextColor3             = Color3.fromRGB(140, 140, 140)
     StatusLabel.TextScaled             = true
     StatusLabel.Font                   = Enum.Font.Gotham
     StatusLabel.TextXAlignment         = Enum.TextXAlignment.Left
     StatusLabel.ZIndex                 = 11
 
-    -- ── THANH PROGRESS BG ──
+    -- ── PROGRESS BG ──
     local BarBG = Instance.new("Frame", Panel)
-    BarBG.Size             = UDim2.new(1, -16, 0, 8)
-    BarBG.Position         = UDim2.new(0, 8, 0, 57)
-    BarBG.BackgroundColor3 = Color3.fromRGB(230, 230, 230)
+    BarBG.Size             = UDim2.new(1, -20, 0, 6)
+    BarBG.Position         = UDim2.new(0, 10, 0, 62)
+    BarBG.BackgroundColor3 = Color3.fromRGB(235, 235, 235)
     BarBG.BorderSizePixel  = 0
     BarBG.ZIndex           = 11
     Instance.new("UICorner", BarBG).CornerRadius = UDim.new(1, 0)
@@ -109,26 +110,25 @@ local function CreateCornerLoader()
     local BarFill = Instance.new("Frame", BarBG)
     BarFill.Name             = "BarFill"
     BarFill.Size             = UDim2.new(0, 0, 1, 0)
-    BarFill.BackgroundColor3 = Color3.fromRGB(200, 200, 200)
+    BarFill.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
     BarFill.BorderSizePixel  = 0
     BarFill.ZIndex           = 12
     Instance.new("UICorner", BarFill).CornerRadius = UDim.new(1, 0)
 
     local FillGrad = Instance.new("UIGradient", BarFill)
     FillGrad.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0,   Color3.fromRGB(240, 240, 240)),
-        ColorSequenceKeypoint.new(0.5, Color3.fromRGB(180, 180, 180)),
-        ColorSequenceKeypoint.new(1,   Color3.fromRGB(100, 100, 100)),
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(160, 160, 160)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(50,  50,  50)),
     })
 
     -- ── LABEL % ──
     local PctLabel = Instance.new("TextLabel", Panel)
     PctLabel.Name                   = "PctLabel"
-    PctLabel.Size                   = UDim2.new(1, -12, 0, 16)
-    PctLabel.Position               = UDim2.new(0, 8, 0, 68)
+    PctLabel.Size                   = UDim2.new(1, -14, 0, 16)
+    PctLabel.Position               = UDim2.new(0, 8, 0, 71)
     PctLabel.BackgroundTransparency = 1
     PctLabel.Text                   = "0%"
-    PctLabel.TextColor3             = Color3.fromRGB(80, 80, 80)
+    PctLabel.TextColor3             = Color3.fromRGB(90, 90, 90)
     PctLabel.TextScaled             = true
     PctLabel.Font                   = Enum.Font.GothamBold
     PctLabel.TextXAlignment         = Enum.TextXAlignment.Right
@@ -148,7 +148,7 @@ local function RunPercentLoader(BarFill, PctLabel, StatusLabel)
         [60]  = "Giải mã dữ liệu...",
         [80]  = "Inject module...",
         [95]  = "Hoàn thiện...",
-        [100] = "✔ Sẵn sàng!",
+        [100] = "Hoàn tất!",
     }
 
     for pct = 1, 100 do
@@ -196,14 +196,14 @@ local function Run()
     local SG, Panel, Shadow, BarFill, PctLabel, StatusLabel = CreateCornerLoader()
 
     -- Slide-in từ phải
-    Panel.Position  = UDim2.new(1, 10, 1, -110)
-    Shadow.Position = UDim2.new(1, 12, 1, -108)
+    Panel.Position  = UDim2.new(1, 10, 1, -108)
+    Shadow.Position = UDim2.new(1, 12, 1, -109)
 
     TweenService:Create(Panel, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(1, -230, 1, -110)
+        Position = UDim2.new(1, -232, 1, -108)
     }):Play()
     TweenService:Create(Shadow, TweenInfo.new(0.4, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {
-        Position = UDim2.new(1, -232, 1, -108)
+        Position = UDim2.new(1, -234, 1, -109)
     }):Play()
 
     task.wait(0.45)
@@ -215,10 +215,10 @@ local function Run()
 
     -- Slide-out ra phải
     TweenService:Create(Panel, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-        Position = UDim2.new(1, 10, 1, -110)
+        Position = UDim2.new(1, 10, 1, -108)
     }):Play()
     TweenService:Create(Shadow, TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {
-        Position = UDim2.new(1, 12, 1, -108)
+        Position = UDim2.new(1, 12, 1, -109)
     }):Play()
 
     task.wait(0.4)
