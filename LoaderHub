@@ -1,15 +1,351 @@
--- Auto Execute Script Loader
--- Tự động chạy script khi game khởi động
+-- ╔══════════════════════════════════════════╗
+-- ║      ANIME BLOX FRUIT - AUTO LOADER      ║
+-- ║         Futuristic UI Edition            ║
+-- ╚══════════════════════════════════════════╝
 
 local Players = game:GetService("Players")
+local TweenService = game:GetService("TweenService")
 local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- Hàm load script chính
+-- ══════════════════════════════════════════
+--             TẠO GUI LOADER
+-- ══════════════════════════════════════════
+
+local function CreateLoader()
+    -- Xoá loader cũ nếu còn
+    if PlayerGui:FindFirstChild("FuturisticLoader") then
+        PlayerGui.FuturisticLoader:Destroy()
+    end
+
+    -- ScreenGui chính
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "FuturisticLoader"
+    ScreenGui.ResetOnSpawn = false
+    ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    ScreenGui.Parent = PlayerGui
+
+    -- Nền tối mờ
+    local Overlay = Instance.new("Frame")
+    Overlay.Size = UDim2.new(1, 0, 1, 0)
+    Overlay.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    Overlay.BackgroundTransparency = 0
+    Overlay.BorderSizePixel = 0
+    Overlay.ZIndex = 1
+    Overlay.Parent = ScreenGui
+
+    -- Panel trung tâm
+    local Panel = Instance.new("Frame")
+    Panel.Size = UDim2.new(0, 480, 0, 300)
+    Panel.Position = UDim2.new(0.5, -240, 0.5, -150)
+    Panel.BackgroundColor3 = Color3.fromRGB(5, 8, 20)
+    Panel.BorderSizePixel = 0
+    Panel.ZIndex = 2
+    Panel.Parent = ScreenGui
+
+    local PanelCorner = Instance.new("UICorner")
+    PanelCorner.CornerRadius = UDim.new(0, 8)
+    PanelCorner.Parent = Panel
+
+    -- Viền neon xanh cyan cho Panel
+    local PanelStroke = Instance.new("UIStroke")
+    PanelStroke.Color = Color3.fromRGB(0, 220, 255)
+    PanelStroke.Thickness = 1.5
+    PanelStroke.Transparency = 0.2
+    PanelStroke.Parent = Panel
+
+    -- Đường kẻ trang trí trên cùng (accent bar)
+    local TopBar = Instance.new("Frame")
+    TopBar.Size = UDim2.new(1, 0, 0, 3)
+    TopBar.Position = UDim2.new(0, 0, 0, 0)
+    TopBar.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+    TopBar.BorderSizePixel = 0
+    TopBar.ZIndex = 3
+    TopBar.Parent = Panel
+
+    local TopBarCorner = Instance.new("UICorner")
+    TopBarCorner.CornerRadius = UDim.new(0, 8)
+    TopBarCorner.Parent = TopBar
+
+    -- Badge "SYSTEM" góc trên trái
+    local Badge = Instance.new("Frame")
+    Badge.Size = UDim2.new(0, 90, 0, 22)
+    Badge.Position = UDim2.new(0, 16, 0, 16)
+    Badge.BackgroundColor3 = Color3.fromRGB(0, 180, 255)
+    Badge.BorderSizePixel = 0
+    Badge.ZIndex = 3
+    Badge.Parent = Panel
+
+    local BadgeCorner = Instance.new("UICorner")
+    BadgeCorner.CornerRadius = UDim.new(0, 4)
+    BadgeCorner.Parent = Badge
+
+    local BadgeLabel = Instance.new("TextLabel")
+    BadgeLabel.Size = UDim2.new(1, 0, 1, 0)
+    BadgeLabel.BackgroundTransparency = 1
+    BadgeLabel.Text = "◈ SYSTEM"
+    BadgeLabel.TextColor3 = Color3.fromRGB(0, 10, 30)
+    BadgeLabel.TextScaled = true
+    BadgeLabel.Font = Enum.Font.GothamBold
+    BadgeLabel.ZIndex = 4
+    BadgeLabel.Parent = Badge
+
+    -- Badge version góc trên phải
+    local VersionBadge = Instance.new("TextLabel")
+    VersionBadge.Size = UDim2.new(0, 80, 0, 22)
+    VersionBadge.Position = UDim2.new(1, -96, 0, 16)
+    VersionBadge.BackgroundTransparency = 1
+    VersionBadge.Text = "v2.0 ONLINE"
+    VersionBadge.TextColor3 = Color3.fromRGB(0, 220, 255)
+    VersionBadge.TextScaled = true
+    VersionBadge.Font = Enum.Font.Gotham
+    VersionBadge.ZIndex = 3
+    VersionBadge.Parent = Panel
+
+    -- Tiêu đề chính
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, -32, 0, 50)
+    Title.Position = UDim2.new(0, 16, 0, 48)
+    Title.BackgroundTransparency = 1
+    Title.Text = "ANIME BLOX FRUIT"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Title.TextScaled = true
+    Title.Font = Enum.Font.GothamBold
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+    Title.ZIndex = 3
+    Title.Parent = Panel
+
+    -- Chữ phụ dưới tiêu đề
+    local SubTitle = Instance.new("TextLabel")
+    SubTitle.Size = UDim2.new(1, -32, 0, 22)
+    SubTitle.Position = UDim2.new(0, 16, 0, 96)
+    SubTitle.BackgroundTransparency = 1
+    SubTitle.Text = "▸ Initializing neural interface..."
+    SubTitle.TextColor3 = Color3.fromRGB(0, 200, 255)
+    SubTitle.TextScaled = true
+    SubTitle.Font = Enum.Font.Gotham
+    SubTitle.TextXAlignment = Enum.TextXAlignment.Left
+    SubTitle.ZIndex = 3
+    SubTitle.Parent = Panel
+
+    -- Đường kẻ ngang phân cách
+    local Divider = Instance.new("Frame")
+    Divider.Size = UDim2.new(1, -32, 0, 1)
+    Divider.Position = UDim2.new(0, 16, 0, 128)
+    Divider.BackgroundColor3 = Color3.fromRGB(0, 100, 140)
+    Divider.BorderSizePixel = 0
+    Divider.ZIndex = 3
+    Divider.Parent = Panel
+
+    -- Status text
+    local StatusLabel = Instance.new("TextLabel")
+    StatusLabel.Name = "StatusLabel"
+    StatusLabel.Size = UDim2.new(1, -32, 0, 24)
+    StatusLabel.Position = UDim2.new(0, 16, 0, 140)
+    StatusLabel.BackgroundTransparency = 1
+    StatusLabel.Text = "► Connecting to remote server..."
+    StatusLabel.TextColor3 = Color3.fromRGB(180, 220, 255)
+    StatusLabel.TextScaled = true
+    StatusLabel.Font = Enum.Font.Code
+    StatusLabel.TextXAlignment = Enum.TextXAlignment.Left
+    StatusLabel.ZIndex = 3
+    StatusLabel.Parent = Panel
+
+    -- Khung thanh progress
+    local ProgressBG = Instance.new("Frame")
+    ProgressBG.Size = UDim2.new(1, -32, 0, 10)
+    ProgressBG.Position = UDim2.new(0, 16, 0, 178)
+    ProgressBG.BackgroundColor3 = Color3.fromRGB(10, 25, 45)
+    ProgressBG.BorderSizePixel = 0
+    ProgressBG.ZIndex = 3
+    ProgressBG.Parent = Panel
+
+    local ProgressBGCorner = Instance.new("UICorner")
+    ProgressBGCorner.CornerRadius = UDim.new(1, 0)
+    ProgressBGCorner.Parent = ProgressBG
+
+    local ProgressBGStroke = Instance.new("UIStroke")
+    ProgressBGStroke.Color = Color3.fromRGB(0, 100, 160)
+    ProgressBGStroke.Thickness = 1
+    ProgressBGStroke.Parent = ProgressBG
+
+    -- Thanh progress thực
+    local ProgressBar = Instance.new("Frame")
+    ProgressBar.Name = "ProgressBar"
+    ProgressBar.Size = UDim2.new(0, 0, 1, 0)
+    ProgressBar.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+    ProgressBar.BorderSizePixel = 0
+    ProgressBar.ZIndex = 4
+    ProgressBar.Parent = ProgressBG
+
+    local ProgressCorner = Instance.new("UICorner")
+    ProgressCorner.CornerRadius = UDim.new(1, 0)
+    ProgressCorner.Parent = ProgressBar
+
+    -- Gradient trên thanh progress
+    local ProgressGradient = Instance.new("UIGradient")
+    ProgressGradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(0, 120, 255)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(0, 240, 255)),
+    })
+    ProgressGradient.Parent = ProgressBar
+
+    -- Phần trăm
+    local PercentLabel = Instance.new("TextLabel")
+    PercentLabel.Name = "PercentLabel"
+    PercentLabel.Size = UDim2.new(1, -32, 0, 20)
+    PercentLabel.Position = UDim2.new(0, 16, 0, 196)
+    PercentLabel.BackgroundTransparency = 1
+    PercentLabel.Text = "0%"
+    PercentLabel.TextColor3 = Color3.fromRGB(0, 180, 255)
+    PercentLabel.TextScaled = true
+    PercentLabel.Font = Enum.Font.GothamBold
+    PercentLabel.TextXAlignment = Enum.TextXAlignment.Right
+    PercentLabel.ZIndex = 3
+    PercentLabel.Parent = Panel
+
+    -- Thông tin dưới cùng
+    local FooterLeft = Instance.new("TextLabel")
+    FooterLeft.Size = UDim2.new(0.6, 0, 0, 20)
+    FooterLeft.Position = UDim2.new(0, 16, 1, -36)
+    FooterLeft.BackgroundTransparency = 1
+    FooterLeft.Text = "SECURE CONNECTION ESTABLISHED"
+    FooterLeft.TextColor3 = Color3.fromRGB(0, 120, 160)
+    FooterLeft.TextScaled = true
+    FooterLeft.Font = Enum.Font.Gotham
+    FooterLeft.TextXAlignment = Enum.TextXAlignment.Left
+    FooterLeft.ZIndex = 3
+    FooterLeft.Parent = Panel
+
+    local FooterRight = Instance.new("TextLabel")
+    FooterRight.Size = UDim2.new(0.4, -16, 0, 20)
+    FooterRight.Position = UDim2.new(0.6, 0, 1, -36)
+    FooterRight.BackgroundTransparency = 1
+    FooterRight.Text = "© AnimeModHub"
+    FooterRight.TextColor3 = Color3.fromRGB(0, 120, 160)
+    FooterRight.TextScaled = true
+    FooterRight.Font = Enum.Font.Gotham
+    FooterRight.TextXAlignment = Enum.TextXAlignment.Right
+    FooterRight.ZIndex = 3
+    FooterRight.Parent = Panel
+
+    -- Đường kẻ footer
+    local FooterLine = Instance.new("Frame")
+    FooterLine.Size = UDim2.new(1, -32, 0, 1)
+    FooterLine.Position = UDim2.new(0, 16, 1, -44)
+    FooterLine.BackgroundColor3 = Color3.fromRGB(0, 80, 120)
+    FooterLine.BorderSizePixel = 0
+    FooterLine.ZIndex = 3
+    FooterLine.Parent = Panel
+
+    -- Hiệu ứng quét neon (scan line)
+    local ScanLine = Instance.new("Frame")
+    ScanLine.Size = UDim2.new(1, 0, 0, 2)
+    ScanLine.Position = UDim2.new(0, 0, 0, 0)
+    ScanLine.BackgroundColor3 = Color3.fromRGB(0, 200, 255)
+    ScanLine.BackgroundTransparency = 0.6
+    ScanLine.BorderSizePixel = 0
+    ScanLine.ZIndex = 5
+    ScanLine.ClipsDescendants = false
+    ScanLine.Parent = Panel
+
+    -- Animate scan line chạy từ trên xuống dưới
+    task.spawn(function()
+        while ScreenGui.Parent do
+            local tweenDown = TweenService:Create(ScanLine,
+                TweenInfo.new(1.8, Enum.EasingStyle.Linear),
+                {Position = UDim2.new(0, 0, 1, 0)}
+            )
+            tweenDown:Play()
+            tweenDown.Completed:Wait()
+            ScanLine.Position = UDim2.new(0, 0, 0, 0)
+        end
+    end)
+
+    -- Fade in Panel khi xuất hiện
+    Panel.Position = UDim2.new(0.5, -240, 0.5, -170)
+    Panel.BackgroundTransparency = 1
+    PanelStroke.Transparency = 1
+
+    local fadeIn = TweenService:Create(Panel,
+        TweenInfo.new(0.5, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+        {
+            Position = UDim2.new(0.5, -240, 0.5, -150),
+            BackgroundTransparency = 0
+        }
+    )
+    local strokeFadeIn = TweenService:Create(PanelStroke,
+        TweenInfo.new(0.5, Enum.EasingStyle.Quart),
+        {Transparency = 0.2}
+    )
+    fadeIn:Play()
+    strokeFadeIn:Play()
+
+    return ScreenGui, Panel
+end
+
+-- ══════════════════════════════════════════
+--           ANIMATE PROGRESS BAR
+-- ══════════════════════════════════════════
+
+local function AnimateLoader(ScreenGui, Panel)
+    local StatusLabel = Panel:FindFirstChild("StatusLabel", true)
+    local ProgressBar = Panel:FindFirstChild("ProgressBar", true)
+    local PercentLabel = Panel:FindFirstChild("PercentLabel", true)
+
+    local steps = {
+        {text = "► Connecting to remote server...",    pct = 0.15, delay = 0.6},
+        {text = "► Fetching script payload...",         pct = 0.35, delay = 0.7},
+        {text = "► Decrypting data stream...",          pct = 0.55, delay = 0.6},
+        {text = "► Injecting modules...",               pct = 0.75, delay = 0.5},
+        {text = "► Verifying integrity...",             pct = 0.90, delay = 0.5},
+        {text = "✔ System ready. Launching...",         pct = 1.00, delay = 0.4},
+    }
+
+    for _, step in ipairs(steps) do
+        task.wait(step.delay)
+        if StatusLabel then StatusLabel.Text = step.text end
+
+        -- Tween thanh progress
+        TweenService:Create(ProgressBar,
+            TweenInfo.new(0.4, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+            {Size = UDim2.new(step.pct, 0, 1, 0)}
+        ):Play()
+
+        -- Cập nhật phần trăm
+        local pct = math.floor(step.pct * 100)
+        if PercentLabel then PercentLabel.Text = pct .. "%" end
+    end
+
+    task.wait(0.5)
+
+    -- Fade out toàn bộ UI
+    local Overlay = ScreenGui:FindFirstChild("Frame") -- overlay đen
+    TweenService:Create(ScreenGui:FindFirstChildOfClass("Frame"),
+        TweenInfo.new(0.6, Enum.EasingStyle.Quart),
+        {BackgroundTransparency = 1}
+    ):Play()
+    TweenService:Create(Panel,
+        TweenInfo.new(0.5, Enum.EasingStyle.Quart),
+        {
+            BackgroundTransparency = 1,
+            Position = UDim2.new(0.5, -240, 0.5, -130)
+        }
+    ):Play()
+
+    task.wait(0.7)
+    ScreenGui:Destroy()
+end
+
+-- ══════════════════════════════════════════
+--           LOAD SCRIPT CHÍNH
+-- ══════════════════════════════════════════
+
 local function LoadScript()
     local success, err = pcall(function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/luongtuyenkqpa/Anime-bloxfuit/refs/heads/main/Animemodhub"))()
     end)
-    
+
     if success then
         print("[AutoLoad] Script đã chạy thành công!")
     else
@@ -17,24 +353,32 @@ local function LoadScript()
     end
 end
 
--- Hàm chờ character load xong rồi mới chạy
-local function OnCharacterAdded(character)
-    -- Chờ character load hoàn toàn
-    character:WaitForChild("HumanoidRootPart", 10)
-    task.wait(2) -- Đợi thêm 2 giây cho game ổn định
+-- ══════════════════════════════════════════
+--             KHỞI ĐỘNG CHÍNH
+-- ══════════════════════════════════════════
+
+local function Run()
+    local ScreenGui, Panel = CreateLoader()
+    AnimateLoader(ScreenGui, Panel)
     LoadScript()
 end
 
--- Auto chạy khi vào game
+-- Chờ character load xong
+local function OnCharacterAdded(character)
+    character:WaitForChild("HumanoidRootPart", 10)
+    task.wait(2)
+    Run()
+end
+
+-- Lần đầu vào game
 if LocalPlayer.Character then
-    -- Nếu character đã tồn tại
     task.spawn(function()
         task.wait(2)
-        LoadScript()
+        Run()
     end)
 end
 
--- Chạy lại mỗi khi respawn (tuỳ chọn)
+-- Tự động chạy lại khi respawn
 LocalPlayer.CharacterAdded:Connect(OnCharacterAdded)
 
-print("[AutoLoad] Script loader đã được khởi động!")
+print("[AutoLoad] Script loader đã khởi động!")
